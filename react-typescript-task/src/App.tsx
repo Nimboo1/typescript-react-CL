@@ -5,22 +5,27 @@ import { Filter } from "./components/Filter";
 import { Table } from "./components/Table";
 
 const initialFilter: VehicleFilter = {
-    title: "",
-    type: null
+  title: "",
+  type: null,
 };
 
 export default function App() {
-    const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
-    useEffect(() => {
-        const data = VehicleApi.search(initialFilter);
-        setVehicles(data);
-    }, []);
+  useEffect(() => {
+    const data = VehicleApi.search(initialFilter);
+    setVehicles(data);
+  }, []);
 
-    return (
-        <>
-            <Filter />
-            <Table vehicles={vehicles} />
-        </>
-    );
+  function setFilter(filter: VehicleFilter) {
+    const data = VehicleApi.search(filter);
+    setVehicles(data);
+  }
+
+  return (
+    <>
+      <Filter handler={setFilter} />
+      <Table vehicles={vehicles} />
+    </>
+  );
 }
